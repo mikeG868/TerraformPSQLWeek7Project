@@ -1,5 +1,4 @@
 import psycopg2
-from datetime import datetime
 
 def append_db(nimi,alku,loppu,projekti_nimi,selite,cursor):
     SQL = "INSERT INTO tyo_taulu (nimi,alku,loppu,projekti_nimi,selite) VALUES (%s,%s,%s,%s,%s);"
