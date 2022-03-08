@@ -10,8 +10,8 @@ while (True):
     print("\n'Työmiehenkuolema'\n")
 
     nimi = input("Aloita syöttämällä käyttäjänimi: ")
-    alku = input("Aloitusaika YYYY-MM-DD HH:MM:SS: ")
-    loppu = input("Lopetusaika: YYYY-MM-DD HH:MM:SS: ")
+    alku = input("Aloitusaika YYYY-MM-DD HH:MM: ")
+    loppu = input("Lopetusaika: YYYY-MM-DD HH:MM: ")
     projekti_nimi = input("projekti: ")
     selite = input("Tehdyt tehtävät: ")
 
