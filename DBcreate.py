@@ -1,15 +1,18 @@
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
+#DBcode contains (SQL statement,target database)
 def runDBcode(DBcode):
     with open("./ignore.txt", 'r') as file:
+        #Db password
         lines = [line.rstrip() for line in file]
         pw = lines[0]
 
-        #Db tiedot
+        #Db info
         user = "postgres"
         SQL,dbname = DBcode
 
+        #Db connect and execute SQL code
         con = None
         try:
             con = psycopg2.connect("dbname={} user={} password={}".format(dbname,user,pw))
@@ -28,24 +31,29 @@ def runDBcode(DBcode):
             if con is not None:
                 con.close()
 
-
+#returns SQL statement and target database
 def create_db(newDBname):
     SQL = "CREATE DATABASE {};".format(newDBname)
     return SQL,"postgres"
 
-def create_table(DBname):
-    SQLtable_init ="CREATE TABLE tyo_taulu (\
+#returns SQL statement and target database
+def create_table(DBname,tablename):
+    SQLtable_init ="CREATE TABLE {} (\
         id              SERIAL PRIMARY KEY, \
         nimi            varchar(255) NOT NULL, \
         alku            TIMESTAMP NOT NULL, \
         loppu           TIMESTAMP NOT NULL, \
         projekti_nimi   varchar(255) NOT NULL, \
         selite          varchar NOT NULL\
-        );"
+        );".format(tablename)
     return SQLtable_init,DBname
+
 
 if __name__ == '__main__':
 
-    DBname = "tyotunnit200"
-    runDBcode(create_db(DBname))
-    runDBcode(create_table(DBname))
+    dbname = "tyotunnit_db"
+    dbname.lower()
+    tablename = "tyo_taulu"
+    tablename.lower()
+    runDBcode(create_db(dbname))
+    runDBcode(create_table(dbname,tablename))

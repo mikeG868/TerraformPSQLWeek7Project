@@ -14,4 +14,4 @@
 --     (nimi,alku,loppu,projekti_nimi,selite) 
 --     VALUES ('matti',TIMESTAMP '2011-05-16 15:36:38',TIMESTAMP '2011-05-16 15:36:38','blabla','blablabla');
 
-SELECT * FROM tyo_taulu1;
+SELECT * FROM tyo_taulu;
