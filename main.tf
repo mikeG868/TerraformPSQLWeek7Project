@@ -116,8 +116,8 @@ resource "azurerm_windows_virtual_machine" "example" {
   resource_group_name = azurerm_resource_group.rg.name
   location            = var.location_name
   size                = "Standard_F1"
-  admin_username      = var.tunnus
-  admin_password      = var.salasana
+  admin_username      = var.tunnusvm
+  admin_password      = var.salasanavm
   network_interface_ids = [
     azurerm_network_interface.main.id,
   ]
