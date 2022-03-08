@@ -1,5 +1,5 @@
 -- CREATE DATABASE tyotunnit;
-SELECT NOW()
+SELECT NOW();
 
 -- CREATE TABLE tyo_taulu (
 --     id              SERIAL PRIMARY KEY,
@@ -12,7 +12,5 @@ SELECT NOW()
 
 INSERT INTO tyo_taulu
     (nimi,alku,loppu,projekti_nimi,selite) 
-    VALUES ("matti","2022-03-08 13:07:43.14758+02","2022-03-09 13:07:43.14758+02","blabla","blablabla");
+    VALUES ('matti',TIMESTAMP '2011-05-16 15:36:38',TIMESTAMP '2011-05-16 15:36:38','blabla','blablabla');
     
-select *, to_char(createddate, 'yyyymmdd hh:mi:ss tt') as created_date
-from "Group"
