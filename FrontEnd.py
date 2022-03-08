@@ -6,15 +6,35 @@ def append_db(nimi,alku,loppu,projekti_nimi,selite,cursor):
     data = (nimi,alku,loppu,projekti_nimi,selite)
     cursor.execute(SQL,data)
 
+def oikein_syotettu(syote: str):   
+    sallitut = set("0123456789/: ")
+
+    lista = [characters in sallitut for characters in syote]
+    sisaltaa = all(lista)
+
+    return sisaltaa
+
 while (True):
 
     print("\n'Työmiehenkuolema'\n")
 
     nimi = input("Aloita syöttämällä käyttäjänimi: ")
-    alkua = input("Aloitusaika YYYY/MM/DD HH:MM: ")
+    while (True):
+        alkua = input("Aloitusaika YYYY/MM/DD HH:MM: ")
+
+        if oikein_syotettu(alkua) == True:
+            break
+        else:
+            print("Virhe")
     
     while (True):
-        loppua = input("Lopetusaika: YYYY/MM/DD HH:MM: ")
+        while (True):
+            loppua = input("Lopetusaika: YYYY/MM/DD HH:MM: ")
+            
+            if (oikein_syotettu(loppua) == True):
+                break
+            else:
+                print("Virhe2")
 
         if loppua < alkua:
             print("Virheellinen aikasyöte: alkuaika myöhemmin kuin lopetus!")
@@ -27,34 +47,37 @@ while (True):
     projekti_nimi = input("projekti: ")
     selite = input("Tehdyt tehtävät: ")
 
-
     # nimi = "abba"
     # alkua = "2002/12/30 11:00"
     # loppua = "2000/12/30 11:00"
     # projekti_nimi = "testtt"
     # selite = "selitys"
 
-    with open("./ignore.txt", 'r') as file:
-        lines = [line.rstrip() for line in file]
-    pw = lines[0]
+    # with open("./ignore.txt", 'r') as file:
+    #     lines = [line.rstrip() for line in file]
+    # pw = lines[0]
 
     alku = datetime.strptime(alkua, '%Y/%m/%d %H:%M')
     loppu = datetime.strptime(loppua, '%Y/%m/%d %H:%M')
 
-    con = None
-    try:
-        con = psycopg2.connect("dbname=tyotunnit user=postgres password = {}".format(pw))
-        cursor = con.cursor()
+    print(alku, loppu)
 
-        append_db(nimi,alku,loppu,projekti_nimi,selite,cursor)
+    # con = None
+    # try:
+    #     con = psycopg2.connect("dbname=tyotunnit user=postgres password = {}".format(pw))
+    #     cursor = con.cursor()
 
-        con.commit()
-        cursor.close()
-        con.close()
+    #     append_db(nimi,alku,loppu,projekti_nimi,selite,cursor)
 
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-    finally:
-        if con is not None:
-            con.close()
+    #     con.commit()
+    #     cursor.close()
+    #     con.close()
+
+    # except (Exception, psycopg2.DatabaseError) as error:
+    #     print(error)
+    # finally:
+    #     if con is not None:
+    #         con.close()
+    
+    print("Tiedot kirjattu!")
 
