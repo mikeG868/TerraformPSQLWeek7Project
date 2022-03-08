@@ -1,3 +1,5 @@
+import psycopg2
+
 def append_db(localfilename,container,blob,URL,cursor):
     SQL = "INSERT INTO blob1 (localfilename, BLOB_CONTAINER, blob_name, containerURL) VALUES (%s,%s,%s,%s);"
     data = (localfilename,container,blob,URL)
