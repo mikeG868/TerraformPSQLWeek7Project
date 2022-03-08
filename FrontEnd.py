@@ -6,13 +6,6 @@ def append_db(nimi,alku,loppu,projekti_nimi,selite,cursor):
     data = (nimi,alku,loppu,projekti_nimi,selite)
     cursor.execute(SQL,data)
 
-def oikein_syotettu(syote: str):   
-    sallitut = set("0123456789/: ")
-
-    lista = [characters in sallitut for characters in syote]
-    sisaltaa = all(lista)
-
-    return sisaltaa
 
 while (True):
 
@@ -21,20 +14,23 @@ while (True):
     nimi = input("Aloita syöttämällä käyttäjänimi: ")
     while (True):
         alkua = input("Aloitusaika YYYY/MM/DD HH:MM: ")
-
-        if oikein_syotettu(alkua) == True:
-            break
-        else:
-            print("Virhe")
-    
+        try:
+            test = datetime.strptime(alkua, '%Y/%m/%d %H:%M')
+        except:
+            print("Vituiks meni.")
+            continue
+        break
+  
     while (True):
-        while (True):
+        while(True):        
             loppua = input("Lopetusaika: YYYY/MM/DD HH:MM: ")
-            
-            if (oikein_syotettu(loppua) == True):
-                break
-            else:
-                print("Virhe2")
+
+            try:
+                test = datetime.strptime(loppua, '%Y/%m/%d %H:%M')
+            except:
+                print("Vituiks meni.")
+                continue
+            break           
 
         if loppua < alkua:
             print("Virheellinen aikasyöte: alkuaika myöhemmin kuin lopetus!")
