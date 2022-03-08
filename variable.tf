@@ -12,6 +12,9 @@ variable "vnet_name" {
 variable "subnet_name" {
   default = "project-subnet1"
 }
+variable "subnet_name2" {
+  default = "project-subnet2"
+}
 variable "location_name" {
   default = "westeurope"
 }
