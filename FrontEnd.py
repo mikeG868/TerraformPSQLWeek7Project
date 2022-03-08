@@ -41,15 +41,6 @@ while (True):
     alku = datetime.strptime(alkua, '%Y/%m/%d %H:%M')
     loppu = datetime.strptime(loppua, '%Y/%m/%d %H:%M')
 
-    print(alku)
-    print(loppu)
-
-    # nimi = 'matti'
-    # alku = '2011-10-16 15:36:38'
-    # loppu = '2011-10-22 15:36:38'
-    # projekti_nimi = 'blabla'
-    # selite = 'blablabla'
-
     con = None
     try:
         con = psycopg2.connect("dbname=tyotunnit user=postgres password = {}".format(pw))
