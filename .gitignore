@@ -1,1 +1,7 @@
+.\terraform
+.terraform.lock.hcl
+*.tfvars
+terraform.tfstate
+.terraform.tfstate.lock.info
+terraform.tfstate.backup
 ignore.txt

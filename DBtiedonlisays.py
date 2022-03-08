@@ -12,6 +12,11 @@ if __name__ == '__main__':
         lines = [line.rstrip() for line in file]
     pw = lines[0]
 
+    #Db tiedot
+    dbname = "tyotunnit"
+    user = "postgres"
+
+    #taulu tiedot
     nimi = 'matti'
     alku = '2011-10-16 15:36:38'
     loppu = '2011-10-22 15:36:38'
@@ -20,7 +25,7 @@ if __name__ == '__main__':
 
     con = None
     try:
-        con = psycopg2.connect("dbname=tyotunnit user=postgres password = {}".format(pw))
+        con = psycopg2.connect("dbname={} user={} password={}".format(dbname,user,pw))
         cursor = con.cursor()
 
         append_db(nimi,alku,loppu,projekti_nimi,selite,cursor)

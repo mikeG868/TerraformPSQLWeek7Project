@@ -1,5 +1,5 @@
 -- CREATE DATABASE tyotunnit;
-SELECT NOW();
+-- SELECT NOW();
 
 -- CREATE TABLE tyo_taulu (
 --     id              SERIAL PRIMARY KEY,
@@ -10,7 +10,8 @@ SELECT NOW();
 --     selite          varchar NOT NULL
 -- );
 
-INSERT INTO tyo_taulu
-    (nimi,alku,loppu,projekti_nimi,selite) 
-    VALUES ('matti',TIMESTAMP '2011-05-16 15:36:38',TIMESTAMP '2011-05-16 15:36:38','blabla','blablabla');
-    
+-- INSERT INTO tyo_taulu
+--     (nimi,alku,loppu,projekti_nimi,selite) 
+--     VALUES ('matti',TIMESTAMP '2011-05-16 15:36:38',TIMESTAMP '2011-05-16 15:36:38','blabla','blablabla');
+
+SELECT * FROM tyo_taulu1;
