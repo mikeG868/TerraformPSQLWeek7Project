@@ -23,6 +23,7 @@ def runDBcode(host, user, password, DBcode):
         cursor.close()
         con.close()
         print("Executed SQL code")
+        print()
 
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
@@ -33,6 +34,7 @@ def runDBcode(host, user, password, DBcode):
 #returns SQL statement and target database
 def create_db(newDBname):
     SQL = "CREATE DATABASE {};".format(newDBname)
+    print('Running CREATE DATABASE')
     return SQL,"postgres"
 
 #returns SQL statement and target database
@@ -44,7 +46,9 @@ def create_table(DBname,tablename):
         loppu           TIMESTAMP NOT NULL, \
         projekti_nimi   varchar(255) NOT NULL, \
         selite          varchar NOT NULL\
+        saa             DECIMAL(5,2)\
         );".format(tablename)
+    print('Running CREATE TABLE')
     return SQLtable_init,DBname
 
 

@@ -8,14 +8,16 @@ def append_table(tablename,dbname):
     loppu = '2011-10-24 15:36:38'
     projekti_nimi = 'blabla'
     selite = 'blablabla'
-    SQL = "INSERT INTO {} (nimi,alku,loppu,projekti_nimi,selite) \
-                    VALUES (%s,%s,%s,%s,%s);".format(tablename)
-    data = (nimi,alku,loppu,projekti_nimi,selite)
+    saa = '-202.22'
+    SQL = "INSERT INTO {} (nimi,alku,loppu,projekti_nimi,selite,saa) \
+                    VALUES (%s,%s,%s,%s,%s,%s);".format(tablename)
+    data = (nimi,alku,loppu,projekti_nimi,selite,saa)
+    print('Running INSERT INTO')
     return SQL,data,dbname
 
 #DBcode contains (SQL statement, data fields, target database)
 def runDBcode(DBcode):
-    with open("./DBignore.txt", 'r') as file:
+    with open("./ignore.txt", 'r') as file:
         #Db password
         lines = [line.rstrip() for line in file]
     pw = lines[0]

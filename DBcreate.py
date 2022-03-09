@@ -3,7 +3,7 @@ from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 #DBcode contains (SQL statement,target database)
 def runDBcode(DBcode):
-    with open("./DBignore.txt", 'r') as file:
+    with open("./ignore.txt", 'r') as file:
         #Db password
         lines = [line.rstrip() for line in file]
     pw = lines[0]
@@ -45,7 +45,8 @@ def create_table(DBname,tablename):
         alku            TIMESTAMP NOT NULL, \
         loppu           TIMESTAMP NOT NULL, \
         projekti_nimi   varchar(255) NOT NULL, \
-        selite          varchar NOT NULL\
+        selite          varchar NOT NULL,\
+        saa             DECIMAL(5,2)\
         );".format(tablename)
     return SQLtable_init,DBname
 
