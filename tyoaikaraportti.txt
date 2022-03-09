@@ -1,1 +1,15 @@
-Moikka!
+16 koodarikalle
+aloittanut: 2022-03-09 10:00:00
+lopettanut: 2022-03-09 10:30:00
+Tunteja: 0:30:00
+Projektissa: vko7
+Selvitys: datetime
+
+17 demomies
+aloittanut: 2022-03-09 10:40:00
+lopettanut: 2022-03-09 11:00:00
+Tunteja: 0:20:00
+Projektissa: vko7
+Selvitys: datetime
+
+Kokonaistunnit: 0:50:00
