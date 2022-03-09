@@ -17,14 +17,16 @@ def haeSarakkeet(cursor, con):
     for rivi in row:
         aikalista.append(rivi[3] - rivi[2])
 
-    print(aikalista)
-    # mysum = datetime.timedelta()
-    # for i in aikalista:
-    #     (h, m, s) = i.strftime(%h, %m, %s)
-    #     d = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
-    #     mysum += d
+    # for rivi in aikalista:
+    #     print(rivi.total_seconds())
+    
+    mysum = datetime.timedelta()
+    for i in aikalista:
+        s = i.total_seconds()
+        d = datetime.timedelta(seconds=int(s))
+        mysum += d
 
-    # print(str(mysum))
+    print(mysum)
 
 with open("./ignore.txt", 'r') as file:
     lines = [line.rstrip() for line in file]
