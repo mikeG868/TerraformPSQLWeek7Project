@@ -53,9 +53,6 @@ while (True):
         lines = [line.rstrip() for line in file]
     pw = lines[0]
 
-    alku = datetime.strptime(alkua, '%Y/%m/%d %H:%M')
-    loppu = datetime.strptime(loppua, '%Y/%m/%d %H:%M')
-
     con = None
     try:
         con = psycopg2.connect("dbname=tyotunnit user=postgres password = {}".format(pw))
