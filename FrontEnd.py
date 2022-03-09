@@ -15,9 +15,9 @@ while (True):
     while (True):
         alkua = input("Aloitusaika YYYY/MM/DD HH:MM: ")
         try:
-            test = datetime.strptime(alkua, '%Y/%m/%d %H:%M')
+            alku = datetime.strptime(alkua, '%Y/%m/%d %H:%M')
         except:
-            print("Vituiks meni.")
+            print("Virheellinen aikasyöte, tarkista formaatti (YYYY/MM/DD HH:MM)")
             continue
         break
   
@@ -26,14 +26,14 @@ while (True):
             loppua = input("Lopetusaika: YYYY/MM/DD HH:MM: ")
 
             try:
-                test = datetime.strptime(loppua, '%Y/%m/%d %H:%M')
+                loppu = datetime.strptime(loppua, '%Y/%m/%d %H:%M')
             except:
-                print("Vituiks meni.")
+                print("Virheellinen aikasyöte, tarkista formaatti (YYYY/MM/DD HH:MM)")
                 continue
             break           
 
         if loppua < alkua:
-            print("Virheellinen aikasyöte: alkuaika myöhemmin kuin lopetus!")
+            print("Lopetusaika ei saa olla aiemmin kuin aloitusaika.")
             continue
         elif loppua == alkua:
             print("Alku ja lopetusajat samat.")
@@ -49,31 +49,29 @@ while (True):
     # projekti_nimi = "testtt"
     # selite = "selitys"
 
-    # with open("./ignore.txt", 'r') as file:
-    #     lines = [line.rstrip() for line in file]
-    # pw = lines[0]
+    with open("./ignore.txt", 'r') as file:
+        lines = [line.rstrip() for line in file]
+    pw = lines[0]
 
     alku = datetime.strptime(alkua, '%Y/%m/%d %H:%M')
     loppu = datetime.strptime(loppua, '%Y/%m/%d %H:%M')
 
-    print(alku, loppu)
+    con = None
+    try:
+        con = psycopg2.connect("dbname=tyotunnit user=postgres password = {}".format(pw))
+        cursor = con.cursor()
 
-    # con = None
-    # try:
-    #     con = psycopg2.connect("dbname=tyotunnit user=postgres password = {}".format(pw))
-    #     cursor = con.cursor()
+        append_db(nimi,alku,loppu,projekti_nimi,selite,cursor)
 
-    #     append_db(nimi,alku,loppu,projekti_nimi,selite,cursor)
+        con.commit()
+        cursor.close()
+        con.close()
 
-    #     con.commit()
-    #     cursor.close()
-    #     con.close()
-
-    # except (Exception, psycopg2.DatabaseError) as error:
-    #     print(error)
-    # finally:
-    #     if con is not None:
-    #         con.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if con is not None:
+            con.close()
     
     print("Tiedot kirjattu!")
 
