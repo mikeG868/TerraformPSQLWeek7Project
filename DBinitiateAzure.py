@@ -55,8 +55,6 @@ if __name__ == '__main__':
     tablename = "tyo_taulu"
     tablename.lower()
 
-
-
     #Db connection info
     with open("./DBignore.txt", 'r') as file:
         lines = [line.rstrip() for line in file]
