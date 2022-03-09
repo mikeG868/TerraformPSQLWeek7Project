@@ -16,11 +16,9 @@ def haeSarakkeet(cursor, con):
 
     for rivi in row:
         aikalista.append(rivi[3] - rivi[2])
-
-    # for rivi in aikalista:
-    #     print(rivi.total_seconds())
     
     mysum = datetime.timedelta()
+    
     for i in aikalista:
         s = i.total_seconds()
         d = datetime.timedelta(seconds=int(s))
