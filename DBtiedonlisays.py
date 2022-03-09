@@ -15,32 +15,33 @@ def append_table(tablename,dbname):
 
 #DBcode contains (SQL statement, data fields, target database)
 def runDBcode(DBcode):
-    with open("./ignore.txt", 'r') as file:
+    with open("./DBignore.txt", 'r') as file:
         #Db password
         lines = [line.rstrip() for line in file]
-        pw = lines[0]
+    pw = lines[0]
 
-        #Db info
-        user = "postgres"
-        SQL,data,dbname = DBcode
+    #Db info
+    user = "postgres"
+    SQL,data,dbname = DBcode
 
-        #Db connect and execute SQL code
-        con = None
-        try:
-            con = psycopg2.connect("dbname={} user={} password={}".format(dbname,user,pw))
-            cursor = con.cursor()
+    #Db connect and execute SQL code
+    con = None
+    try:
+        con = psycopg2.connect("dbname={} user={} password={}".format(dbname,user,pw))
+        cursor = con.cursor()
 
-            cursor.execute(SQL,data)
+        cursor.execute(SQL,data)
 
-            con.commit()
-            cursor.close()
+        con.commit()
+        cursor.close()
+        con.close()
+        print("Executed SQL code")
+
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if con is not None:
             con.close()
-
-        except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
-        finally:
-            if con is not None:
-                con.close()
 
 
 if __name__ == '__main__':

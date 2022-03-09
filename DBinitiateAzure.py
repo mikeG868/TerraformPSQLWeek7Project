@@ -2,20 +2,18 @@ import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 #DBcode contains (SQL statement,target database)
-def runDBcode(DBcode):
-    with open("./DBignore.txt", 'r') as file:
-        #Db password
-        lines = [line.rstrip() for line in file]
-    pw = lines[0]
-
+def runDBcode(host, user, password, DBcode):
     #Db info
-    user = "postgres"
     SQL,dbname = DBcode
+    sslmode = "require"
+    # Construct connection string
+    conn_string = "host={0} user={1} dbname={2} password={3} sslmode={4}".format(host, user, dbname, password, sslmode)
 
     #Db connect and execute SQL code
     con = None
     try:
-        con = psycopg2.connect("dbname={} user={} password={}".format(dbname,user,pw))
+        con = psycopg2.connect(conn_string) 
+        print("Connection established")
         con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
         cursor = con.cursor()
 
@@ -56,5 +54,15 @@ if __name__ == '__main__':
     dbname.lower()
     tablename = "tyo_taulu"
     tablename.lower()
-    runDBcode(create_db(dbname))
-    runDBcode(create_table(dbname,tablename))
+
+
+
+    #Db connection info
+    with open("./DBignore.txt", 'r') as file:
+        lines = [line.rstrip() for line in file]
+    password = lines[0]
+    host = lines[1]
+    user = lines[2]
+
+    runDBcode(host,user,password,create_db(dbname))
+    runDBcode(host,user,password,create_table(dbname,tablename))
