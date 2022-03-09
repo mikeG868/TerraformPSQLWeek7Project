@@ -6,69 +6,63 @@ def append_db(nimi,alku,loppu,projekti_nimi,selite,cursor):
     data = (nimi,alku,loppu,projekti_nimi,selite)
     cursor.execute(SQL,data)
 
-
-while (True):
-
-    print("\n'Työmiehenkuolema'\n")
-
-    nimi = input("Aloita syöttämällä käyttäjänimi: ")
+def kayttoliittyma():
     while (True):
-        alkua = input("Aloitusaika YYYY/MM/DD HH:MM: ")
-        try:
-            alku = datetime.strptime(alkua, '%Y/%m/%d %H:%M')
-        except:
-            print("Virheellinen aikasyöte, tarkista formaatti (YYYY/MM/DD HH:MM)")
-            continue
-        break
-  
-    while (True):
-        while(True):        
-            loppua = input("Lopetusaika: YYYY/MM/DD HH:MM: ")
 
+        print("\n'Työmiehenkuolema'\n")
+
+        nimi = input("Aloita syöttämällä käyttäjänimi: ")
+        while (True):
+            alkua = input("Aloitusaika YYYY/MM/DD HH:MM: ")
             try:
-                loppu = datetime.strptime(loppua, '%Y/%m/%d %H:%M')
+                alku = datetime.strptime(alkua, '%Y/%m/%d %H:%M')
             except:
                 print("Virheellinen aikasyöte, tarkista formaatti (YYYY/MM/DD HH:MM)")
                 continue
-            break           
-
-        if loppua < alkua:
-            print("Lopetusaika ei saa olla aiemmin kuin aloitusaika.")
-            continue
-        elif loppua == alkua:
-            print("Alku ja lopetusajat samat.")
-        else:
             break
+  
+        while (True):
+            while(True):        
+                loppua = input("Lopetusaika: YYYY/MM/DD HH:MM: ")
 
-    projekti_nimi = input("projekti: ")
-    selite = input("Tehdyt tehtävät: ")
+                try:
+                    loppu = datetime.strptime(loppua, '%Y/%m/%d %H:%M')
+                except:
+                    print("Virheellinen aikasyöte, tarkista formaatti (YYYY/MM/DD HH:MM)")
+                    continue
+                break           
 
-    # nimi = "abba"
-    # alkua = "2002/12/30 11:00"
-    # loppua = "2000/12/30 11:00"
-    # projekti_nimi = "testtt"
-    # selite = "selitys"
+            if loppua < alkua:
+                print("Lopetusaika ei saa olla aiemmin kuin aloitusaika.")
+                continue
+            elif loppua == alkua:
+                print("Alku ja lopetusajat samat.")
+            else:
+                break
 
-    with open("./ignore.txt", 'r') as file:
-        lines = [line.rstrip() for line in file]
-    pw = lines[0]
+        projekti_nimi = input("projekti: ")
+        selite = input("Tehdyt tehtävät: ")
 
-    con = None
-    try:
-        con = psycopg2.connect("dbname=tyotunnit user=postgres password = {}".format(pw))
-        cursor = con.cursor()
+        with open("./ignore.txt", 'r') as file:
+            lines = [line.rstrip() for line in file]
+        pw = lines[0]
 
-        append_db(nimi,alku,loppu,projekti_nimi,selite,cursor)
+        con = None
+        try:
+            con = psycopg2.connect("dbname=tyotunnit user=postgres password = {}".format(pw))
+            cursor = con.cursor()
 
-        con.commit()
-        cursor.close()
-        con.close()
+            append_db(nimi,alku,loppu,projekti_nimi,selite,cursor)
 
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-    finally:
-        if con is not None:
+            con.commit()
+            cursor.close()
             con.close()
+
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+        finally:
+            if con is not None:
+                con.close()
     
-    print("Tiedot kirjattu!")
+        print("Tiedot kirjattu!")
 
