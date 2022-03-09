@@ -38,41 +38,44 @@ def kirjoitaRaportti(summa: datetime.timedelta(), rivit: list):
             rivi = f'{str(i[0])} {str(i[1])}\naloittanut: {str(i[2])}\nlopettanut: {str(i[3])}\nTunteja: {i[3]-i[2]}\nProjektissa: {str(i[4])}\nSelvitys: {str(i[5])}\n\n'
             tiedosto.write(rivi)
         tiedosto.write(f'Kokonaistunnit: {str(summa)}')
+    
+    laheta_sahkoposti()
 
-
-with open("./ignore.txt", 'r') as file:
-    lines = [line.rstrip() for line in file]
-pw = lines[0]
-
-con = None
-try:
-    con = psycopg2.connect("dbname=tyotunnit user=postgres password = {}".format(pw))
-    cursor = con.cursor()
-    con.commit()
-    haeSarakkeet(cursor, con)
-    cursor.close()
-    con.close()
-
-except (Exception, psycopg2.DatabaseError) as error:
-    print(error)
-finally:
-    if con is not None:
-        con.close()
-
-           
-with open("tyoaikaraportti.txt") as fp:
-    msg = EmailMessage()
-    msg['From'] = "linna.anna@gmail.com"
-    msg['To'] = "ville.jouhten@saunalahti.fi"
-    msg['Subject'] = 'Työaikaraportti'
-    msg.set_content(fp.read())
+def laheta_sahkoposti():
+    with open("tyoaikaraportti.txt") as fp:
+        msg = EmailMessage()
+        msg['From'] = "linna.anna@gmail.com"
+        msg['To'] = "ville.jouhten@saunalahti.fi"
+        msg['Subject'] = 'Työaikaraportti'
+        msg.set_content(fp.read())
       
 
-server = smtplib.SMTP('smtp.gmail.com', 587) 
-server.starttls()
-server.login("waffeloine@gmail.com", "yxueqnbnkcqiqugw")
-#msg = "The count in the table is currently this many rows " # message
-server.sendmail("linna.anna@gmail.com", "ville.jouhten@saunalahti.fi", msg.as_string())
+    server = smtplib.SMTP('smtp.gmail.com', 587) 
+    server.starttls()
+    server.login("waffeloine@gmail.com", "yxueqnbnkcqiqugw")
+    server.sendmail("linna.anna@gmail.com", "ville.jouhten@saunalahti.fi", msg.as_string())
 
-server.quit()
-print("???")
+    server.quit()
+
+def db_connection():
+    with open("./ignore.txt", 'r') as file:
+        lines = [line.rstrip() for line in file]
+    pw = lines[0]
+
+    con = None
+    try:
+        con = psycopg2.connect("dbname=tyotunnit user=postgres password = {}".format(pw))
+        cursor = con.cursor()
+        con.commit()
+        haeSarakkeet(cursor, con)
+        cursor.close()
+        con.close()
+
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if con is not None:
+            con.close()
+
+if __name__ == "__main__":
+    db_connection()           
