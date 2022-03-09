@@ -62,29 +62,24 @@ with open("./ignore.txt", 'r') as file:
 """ with open("tyoaikaraportti.txt", "w") as tiedosto:
     for i in data['items']:
         tiedosto.write(i['parameter'])
-        tiedosto.write("\n")       """
+        tiedosto.write("\n")    
+           """
 
 
+# Luodaan tesktitiedostosta viesti
 with open("tyoaikaraportti.txt") as fp:
-    # Create a text/plain message
     msg = EmailMessage()
+    msg['From'] = "linna.anna@gmail.com"
+    msg['To'] = "ville.jouhten@saunalahti.fi"
+    msg['Subject'] = 'Työaikaraportti'
     msg.set_content(fp.read())
+      
 
-# me == the sender's email address
-# you == the recipient's email address
-msg['Subject'] = f'The contents of "tyoaikaraportti.txt"'
-msg['From'] = "linna.anna@gmail.com"
-msg['To'] = "ville.jouhten@saunalahti.fi"
-
-# Send the message via our own SMTP server.
-""" s = smtplib.SMTP('localhost')
-s.send_message(msg)
-s.quit()  """ 
 
 server = smtplib.SMTP('smtp.gmail.com', 587) 
 server.starttls()
-server.login("linna.anna@gmail.com", pw) #account that emails are coming from
-msg = "The count in the table is currently this many rows " + str(rows) # message
-server.sendmail("linna.anna@gmail.com", "ville.jouhten@saunalahti.fi", msg) # 
+server.login("linna.anna", pw)
+#msg = "The count in the table is currently this many rows " # message
+server.sendmail("linna.anna@gmail.com", "ville.jouhten@saunalahti.fi", msg.as_string())
 
 server.quit()
