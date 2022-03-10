@@ -110,28 +110,31 @@ resource "azurerm_postgresql_flexible_server" "SQL" {
 
 }
 
-# Create VM workstation
-resource "azurerm_windows_virtual_machine" "example" {
-  name                = var.vm_desktop_name
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = var.location_name
-  size                = "Standard_F1"
-  admin_username      = var.tunnusvm
-  admin_password      = var.salasanavm
-  network_interface_ids = [
-    azurerm_network_interface.main.id,
-  ]
+# Create VM workstation from image
+resource "azurerm_virtual_machine" "vm" {
+  name                  = var.vm_desktop_name
+  location              = var.location_name
+  resource_group_name   = azurerm_resource_group.rg.name
+  vm_size               = "Standard_F1"
+  network_interface_ids = [azurerm_network_interface.main.id]
 
-  os_disk {
-    caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+  storage_image_reference {
+    id = var.image_id
   }
 
-  source_image_reference {
-    publisher = "MicrosoftWindowsDesktop"
-    offer     = "Windows-10"
-    sku       = "19h1-pro"
-    version   = "latest"
+  storage_os_disk {
+    name          = "osdisk1"
+    caching       = "ReadWrite"
+    create_option = "FromImage"
+  }
+
+  os_profile {
+    computer_name  = var.vm_desktop_name
+    admin_username = var.tunnusvm
+    admin_password = var.salasanavm
+  }
+
+  os_profile_windows_config {
   }
 }
 
@@ -154,6 +157,7 @@ resource "azurerm_network_security_group" "example" {
   }
 }
 
+# Associate NSG with network interface
 resource "azurerm_network_interface_security_group_association" "example" {
   network_interface_id      = azurerm_network_interface.main.id
   network_security_group_id = azurerm_network_security_group.example.id

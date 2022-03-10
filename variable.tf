@@ -4,6 +4,7 @@ variable "salasana" { }
 variable "tunnus" { }
 variable "tunnusvm" { }
 variable "salasanavm" { }
+variable "image_id" { }
 
 variable "resource_group_name" {
   default = "project_r4"
