@@ -61,9 +61,9 @@ def kirjoitaRaportti(summa: datetime.timedelta(), rivit: list):
 
 def laheta_sahkoposti():
     print("Lähetetään sähköposti...")
-    with open("./ignore.txt", 'r') as file:
+    with open("C:\Viikko7projekti\ignore.txt", 'r') as file:
         lines = [line.rstrip() for line in file]
-    pw = lines[2]
+    pw = lines[1]
     
     with open("tyoaikaraportti.txt") as fp:
         msg = EmailMessage()
@@ -87,7 +87,7 @@ def db_connection():
         conn_string = "host={0} user={1} dbname={2} password={3} sslmode={4}".format(host, user, dbname, password, sslmode)
 
         con = psycopg2.connect(conn_string) 
-        print("Connection established")
+        print("Yhdistetty tietokantaan...")
         cursor = con.cursor()
         con.commit()
         haeSarakkeet(cursor, con)
@@ -102,7 +102,7 @@ def db_connection():
 
 
 if __name__ == "__main__":
-    with open("DBfiles/DBignore.txt", 'r') as file:
+    with open("C:\Viikko7projekti\DBfiles\DBignore.txt", 'r') as file:
         lines = [line.rstrip() for line in file]
     password = lines[0]
     host = lines[1]
