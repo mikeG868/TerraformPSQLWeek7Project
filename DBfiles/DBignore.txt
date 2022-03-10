@@ -1,4 +1,0 @@
-Tosisalainen!
-sql1.postgres.database.azure.com
-project4
-6c1e387f8b3355e4833f1b26de57302a
