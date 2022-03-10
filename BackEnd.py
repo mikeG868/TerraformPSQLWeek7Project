@@ -24,7 +24,8 @@ def append_db(nimi,alku,loppu,projekti_nimi,selite,cursor):
     data = (nimi,alku,loppu,projekti_nimi,selite)
     cursor.execute(SQL,data)
 
-def haeSarakkeet(cursor, con):  
+def haeSarakkeet(cursor, con):
+    print("Haetaan työaikoja...")
     aloitus = time.strftime("%Y-%m-%d 00:00:00")
     lopetus = time.strftime("%Y-%m-%d 23:59:59")
 
@@ -48,6 +49,7 @@ def haeSarakkeet(cursor, con):
     kirjoitaRaportti(mysum, row)
 
 def kirjoitaRaportti(summa: datetime.timedelta(), rivit: list):
+    print("Kirjoitetaan raportti...")
 
     with open("tyoaikaraportti.txt", "w") as tiedosto:
         for i in rivit:
@@ -58,7 +60,7 @@ def kirjoitaRaportti(summa: datetime.timedelta(), rivit: list):
     laheta_sahkoposti()
 
 def laheta_sahkoposti():
-    
+    print("Lähetetään sähköposti...")
     with open("./ignore.txt", 'r') as file:
         lines = [line.rstrip() for line in file]
     pw = lines[2]
@@ -79,13 +81,13 @@ def laheta_sahkoposti():
     server.quit()
 
 def db_connection():
-    with open("./ignore.txt", 'r') as file:
-        lines = [line.rstrip() for line in file]
-    pw = lines[0]
-
     con = None
     try:
-        con = psycopg2.connect("dbname=tyotunnit user=postgres password = {}".format(pw))
+        sslmode = "require"
+        conn_string = "host={0} user={1} dbname={2} password={3} sslmode={4}".format(host, user, dbname, password, sslmode)
+
+        con = psycopg2.connect(conn_string) 
+        print("Connection established")
         cursor = con.cursor()
         con.commit()
         haeSarakkeet(cursor, con)
@@ -99,6 +101,12 @@ def db_connection():
             con.close()
 
 
-
 if __name__ == "__main__":
-    db_connection()           
+    with open("DBfiles/DBignore.txt", 'r') as file:
+        lines = [line.rstrip() for line in file]
+    password = lines[0]
+    host = lines[1]
+    user = lines[2]
+    dbname = "tyotunnit_db"
+
+    db_connection()

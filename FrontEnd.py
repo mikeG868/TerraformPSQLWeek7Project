@@ -9,16 +9,18 @@ def append_db(nimi,alku,loppu,projekti_nimi,selite,saa,cursor):
 
 def tietokantayhteys(nimi,alku,loppu,projekti_nimi,selite,saa):
 
-        with open("./ignore.txt", 'r') as file:
-            lines = [line.rstrip() for line in file]
-        pw = lines[0]
-
         con = None
         try:
-            con = psycopg2.connect("dbname=tyotunnit user=postgres password = {}".format(pw))
+            sslmode = "require"
+            conn_string = "host={0} user={1} dbname={2} password={3} sslmode={4}".format(host, user, dbname, password, sslmode)
+
+            con = psycopg2.connect(conn_string) 
             cursor = con.cursor()
 
             append_db(nimi,alku,loppu,projekti_nimi,selite, saa, cursor)
+            print()
+            print("Työtuntisi on kirjattu tietokantaan")
+            print()
 
             con.commit()
             cursor.close()
@@ -96,4 +98,12 @@ def kayttoliittyma():
         break
 
 if __name__ == "__main__":
+
+    with open("DBfiles/DBignore.txt", 'r') as file:
+        lines = [line.rstrip() for line in file]
+    password = lines[0]
+    host = lines[1]
+    user = lines[2]
+    dbname = "tyotunnit_db"
     kayttoliittyma()
+    input("Paina Enter ja lopeta")
