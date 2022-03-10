@@ -4,8 +4,23 @@ import smtplib
 from email.message import EmailMessage
 import time
 
+def puuttuuko_tyoaikoja(lista: list):
+
+    projektiinLiitetyt = ['Matti', 'Ville', 'Anna', 'Mike', 'Pietari', 'Heini']
+    projektiinLiitetyt.sort(key = len)
+    lista.sort(key = len)
+
+    kirjaus_puuttuu = []
+
+    i = 0
+    for arvo in projektiinLiitetyt:
+        if arvo not in lista:
+            kirjaus_puuttuu.append(arvo)
+    
+    return kirjaus_puuttuu
+
 def append_db(nimi,alku,loppu,projekti_nimi,selite,cursor):
-    SQL = "INSERT INTO tyo_taulu (nimi,alku,loppu,projekti_nimi,selite) VALUES (%s,%s,%s,%s,%s);"
+    SQL = "INSERT INTO tyo_taulu (nimi,alku,loppu,projekti_nimi,selite) VALUES (%s,%s,%s,%s,%s,%s);"
     data = (nimi,alku,loppu,projekti_nimi,selite)
     cursor.execute(SQL,data)
 
@@ -29,6 +44,7 @@ def haeSarakkeet(cursor, con):
         d = datetime.timedelta(seconds=int(s))
         mysum += d
 
+    puuttuuko_tyoaikoja(row)
     kirjoitaRaportti(mysum, row)
 
 def kirjoitaRaportti(summa: datetime.timedelta(), rivit: list):
@@ -42,6 +58,11 @@ def kirjoitaRaportti(summa: datetime.timedelta(), rivit: list):
     laheta_sahkoposti()
 
 def laheta_sahkoposti():
+    
+    with open("./ignore.txt", 'r') as file:
+        lines = [line.rstrip() for line in file]
+    pw = lines[2]
+    
     with open("tyoaikaraportti.txt") as fp:
         msg = EmailMessage()
         msg['From'] = "linna.anna@gmail.com"
@@ -52,7 +73,7 @@ def laheta_sahkoposti():
 
     server = smtplib.SMTP('smtp.gmail.com', 587) 
     server.starttls()
-    server.login("waffeloine@gmail.com", "yxueqnbnkcqiqugw")
+    server.login("waffeloine@gmail.com", pw)
     server.sendmail("linna.anna@gmail.com", "ville.jouhten@saunalahti.fi", msg.as_string())
 
     server.quit()
@@ -76,6 +97,8 @@ def db_connection():
     finally:
         if con is not None:
             con.close()
+
+
 
 if __name__ == "__main__":
     db_connection()           
