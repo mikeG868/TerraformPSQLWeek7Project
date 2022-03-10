@@ -51,44 +51,46 @@ def kayttoliittyma():
 
         print("\n'Työajanhallinta v1.0'\n")
 
-        # nimi = input("Aloita syöttämällä käyttäjänimi: ")
-        # while (True):
-        #     alkua = input("Aloitusaika YYYY/MM/DD HH:MM: ")
-        #     try:
-        #         alku = datetime.strptime(alkua, '%Y/%m/%d %H:%M')
-        #     except:
-        #         print("Virheellinen aikasyöte, tarkista formaatti (YYYY/MM/DD HH:MM)")
-        #         continue
-        #     break
+        nimi = input("Aloita syöttämällä käyttäjänimi: ")
+        while (True):
+            alkua = input("Aloitusaika YYYY/MM/DD HH:MM: ")
+            try:
+                alku = datetime.strptime(alkua, '%Y/%m/%d %H:%M')
+            except:
+                print("Virheellinen aikasyöte, tarkista formaatti (YYYY/MM/DD HH:MM)")
+                continue
+            break
   
-        # while (True):
-        #     while(True):        
-        #         loppua = input("Lopetusaika: YYYY/MM/DD HH:MM: ")
+        while (True):
+            while(True):        
+                loppua = input("Lopetusaika: YYYY/MM/DD HH:MM: ")
 
-        #         try:
-        #             loppu = datetime.strptime(loppua, '%Y/%m/%d %H:%M')
-        #         except:
-        #             print("Virheellinen aikasyöte, tarkista formaatti (YYYY/MM/DD HH:MM)")
-        #             continue
-        #         break           
+                try:
+                    loppu = datetime.strptime(loppua, '%Y/%m/%d %H:%M')
+                except:
+                    print("Virheellinen aikasyöte, tarkista formaatti (YYYY/MM/DD HH:MM)")
+                    continue
+                break           
 
-        #     if loppua < alkua:
-        #         print("Lopetusaika ei saa olla aiemmin kuin aloitusaika.")
-        #         continue
-        #     elif loppua == alkua:
-        #         print("Alku ja lopetusajat samat.")
-        #     else:
-        #         break
+            if loppua < alkua:
+                print("Lopetusaika ei saa olla aiemmin kuin aloitusaika.")
+                continue
+            elif loppua == alkua:
+                print("Alku ja lopetusajat samat.")
+            else:
+                break
 
-        # projekti_nimi = input("projekti: ")
-        # selite = input("Tehdyt tehtävät: ")
-        nimi = 'aikablöb'
-        alku = "2022/10/10 09:00"
-        loppu = "2022/10/10 16:00"
-        projekti_nimi = "vko07"
-        selite = "sää"
+        projekti_nimi = input("projekti: ")
+        selite = input("Tehdyt tehtävät: ")
         saa = str(get_weather())
-        print(saa)
+        
+        # nimi = 'aikablöb'
+        # alku = "2022/10/10 09:00"
+        # loppu = "2022/10/10 16:00"
+        # projekti_nimi = "vko07"
+        # selite = "sää"
+        # saa = str(get_weather())
+        # print(saa)
         
         tietokantayhteys(nimi,alku,loppu,projekti_nimi,selite,saa)
         break
