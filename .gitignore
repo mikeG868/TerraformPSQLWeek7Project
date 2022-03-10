@@ -5,5 +5,5 @@ terraform.tfstate
 .terraform.tfstate.lock.info
 terraform.tfstate.backup
 ignore.txt
-DBignore.txt
+.\DBfiles
 DBalustus.bat

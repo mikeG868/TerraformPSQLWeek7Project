@@ -60,7 +60,7 @@ if __name__ == '__main__':
     tablename.lower()
 
     #Db connection info
-    with open("./DBignore.txt", 'r') as file:
+    with open("./DBfiles/DBignore.txt", 'r') as file:
         lines = [line.rstrip() for line in file]
     password = lines[0]
     host = lines[1]
